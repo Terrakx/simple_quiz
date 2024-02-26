@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <title>Simple Quiz</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .quiz-container {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 500px;
+        }
+        .question {
+            font-size: 1.2em;
+            padding-bottom: 20px;
+        }
+        .answers {
+            list-style: none;
+            padding: 0;
+        }
+        .answers li {
+            background: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .answers li:hover {
+            background: #f1f1f1;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5c47d3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #2e3cfa;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <div class="question" id="question">1. Which is the largest animal in the world?</div>
+    <ul class="answers" id="answers">
+        <!-- Antwortmöglichkeiten werden hier eingefügt -->
+    </ul>
+    <button id="next-btn">Next</button>
+</div>
+
+<script>
+    const quizData = [
+        {
+            question: "Which is the largest animal in the world?",
+            answers: ["Shark", "Blue whale", "Elephant", "Giraffe"],
+            correct: "Blue whale",
+        },
+        {
+            question: "Was ist die Hauptstadt von Deutschland?",
+            answers: ["München", "Berlin", "Hamburg", "Frankfurt"],
+            correct: "Berlin",
+        },
+        {
+            question: "Welches ist das höchste Gebäude der Welt?",
+            answers: ["Shanghai Tower", "Burj Khalifa", "Abraj Al Bait Clock Tower", "One World Trade Center"],
+            correct: "Burj Khalifa",
+        },
+        {
+            question: "Wer hat die Relativitätstheorie entwickelt?",
+            answers: ["Isaac Newton", "Albert Einstein", "Stephen Hawking", "Galileo Galilei"],
+            correct: "Albert Einstein",
+        },
+        {
+            question: "Welches ist das größte Land der Welt?",
+            answers: ["China", "Indien", "USA", "Russland"],
+            correct: "Russland",
+        },
+        {
+            question: "Welches ist das größte Tier der Welt?",
+            answers: ["Hai", "Blaudrossel", "Elefant", "Giraffe"],
+            correct: "Blaudrossel",
+        },
+        {
+            question: "Welches Element hat das chemische Symbol 'O'?",
+            answers: ["Sauerstoff", "Kohlenstoff", "Wasserstoff", "Eisen"],
+            correct: "Sauerstoff",
+        },
+        {
+            question: "Wer hat die Relativitätstheorie entwickelt?",
+            answers: ["Isaac Newton", "Albert Einstein", "Stephen Hawking", "Galileo Galilei"],
+            correct: "Albert Einstein",
+        },
+        {
+            question: "Was ist die Hauptstadt von Frankreich?",
+            answers: ["Berlin", "Madrid", "Rom", "Paris"],
+            correct: "Paris",
+        },
+        // Weitere Fragen hinzufügen
+    ];
+    let currentQuestionIndex = 0;
+
+    function loadQuestion() {
+        const currentQuestion = quizData[currentQuestionIndex];
+        document.getElementById('question').innerText = `${currentQuestionIndex + 1}. ${currentQuestion.question}`;
+        const answersHtml = currentQuestion.answers.map(answer =>
+            `<li onclick="selectAnswer(this, '${answer}')">${answer}</li>`
+        ).join('');
+        document.getElementById('answers').innerHTML = answersHtml;
+    }
+
+    function selectAnswer(li, answer) {
+        const isCorrect = answer === quizData[currentQuestionIndex].correct;
+        if (isCorrect) {
+            li.style.backgroundColor = 'lightgreen';
+        } else {
+            li.style.backgroundColor = 'pink';
+        }
+        Array.from(document.getElementById('answers').children).forEach(child => {
+            child.style.pointerEvents = 'none';
+        });
+        document.getElementById('next-btn').style.display = 'block';
+    }
+
+    document.getElementById('next-btn').addEventListener('click', () => {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < quizData.length) {
+            loadQuestion();
+        } else {
+            document.body.innerHTML = '<div style="text-align:center;"><h1>Quiz Completed!</h1></div>';
+        }
+    });
+
+    loadQuestion(); // Erste Frage laden
+</script>
+</body>
+</html>
